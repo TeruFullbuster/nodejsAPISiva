@@ -14,7 +14,7 @@ export const getEmpleados  = async (req, res) => {
 
 export const getEmpleado  = async (req, res) => {
     try {
-    const [rows] = await pool.query('SELECT * FROM usuariosiva WHERE id_usuario = ?', [req.params.id])
+    const [rows] = await pool.query('SELECT * FROM usuariosiva WHERE id = ?', [req.params.id])
     if (rows.length <= 0) return res.status(404).json({
         message: 'Empleado no encontrado'
     })
