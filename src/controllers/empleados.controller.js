@@ -3,7 +3,7 @@ import {pool} from '../db.js'
 
 export const getEmpleados  = async (req, res) => {
     try {
-    const [rows] = await pool.query('SELECT * FROM usuariossiva')
+    const [rows] = await pool.query('SELECT * FROM usuariosiva')
             res.json(rows)
     } catch (error) {
         return res.status(500).json({
@@ -14,7 +14,7 @@ export const getEmpleados  = async (req, res) => {
 
 export const getEmpleado  = async (req, res) => {
     try {
-    const [rows] = await pool.query('SELECT * FROM usuariossiva WHERE id_usuario = ?', [req.params.id])
+    const [rows] = await pool.query('SELECT * FROM usuariosiva WHERE id_usuario = ?', [req.params.id])
     if (rows.length <= 0) return res.status(404).json({
         message: 'Empleado no encontrado'
     })
@@ -29,7 +29,7 @@ export const getEmpleado  = async (req, res) => {
 export const createEmpleados = async (req, res) => {
     const {nombre,apellidoP,apellidoM,celular,correo,contrasenia,rol,empresa,tienePrestamos,salario,insession} = req.body
     try {
-    const [rows] = await pool.query('INSERT INTO usuariossiva (nombre,apellidoP,apellidoM,celular,correo,contrasenia,rol,empresa,tienePrestamos,salario,insession) VALUES (?,?,?,?,?,?,?,?,?,?,?)', [nombre,apellidoP,apellidoM,celular,correo,contrasenia,rol,empresa,tienePrestamos,salario,insession])
+    const [rows] = await pool.query('INSERT INTO usuariosiva (nombre,apellidoP,apellidoM,celular,correo,contrasenia,rol,empresa,tienePrestamos,salario,insession) VALUES (?,?,?,?,?,?,?,?,?,?,?)', [nombre,apellidoP,apellidoM,celular,correo,contrasenia,rol,empresa,tienePrestamos,salario,insession])
     console.log(rows) 
     res.send({
         id: rows.insertId,
@@ -56,7 +56,7 @@ export const createEmpleados = async (req, res) => {
 
 export const deleteEmpleados = async (req, res) => {
     try {
-    const [result] = await pool.query('DELETE FROM usuariossiva WHERE id_usuario = ?', [req.params.id])
+    const [result] = await pool.query('DELETE FROM usuariosiva WHERE id_usuario = ?', [req.params.id])
 
     if (result.affectedRows <= 0) return res.status(404).json({
         message: 'Empleado no encontrado'
@@ -75,14 +75,14 @@ export const putEmpleados = async(req, res) => {
     const {nombre, salario} = req.body
 
     try {    
-    const [result] = await pool.query('UPDATE usuariossiva SET nombre = ?, salario = ? WHERE id = ?', [nombre, salario, id])
+    const [result] = await pool.query('UPDATE usuariosiva SET nombre = ?, salario = ? WHERE id = ?', [nombre, salario, id])
     console.log(result)
 
     if (result.affectedRows === 0) return res.status(404).json({
         message: 'Empleado no encontrado'
     })
 
-    const [rows] = await pool.query('SELECT * FROM usuariossiva WHERE id_usuario = ?',[id])
+    const [rows] = await pool.query('SELECT * FROM usuariosiva WHERE id_usuario = ?',[id])
     
     res.json(rows[0])
     } catch (error) {
@@ -95,7 +95,7 @@ export const putEmpleados = async(req, res) => {
 export const inicioSession  = async (req, res) => {
     const {correo, contrasenia} = req.body
     try {
-    const [rows] = await pool.query('SELECT * FROM usuariossiva WHERE correo = ?', [correo])
+    const [rows] = await pool.query('SELECT * FROM usuariosiva WHERE correo = ?', [correo])
     if (rows.length <= 0) return res.status(401).json({
         message: 'Usuario no encontrado'
     })
